@@ -1,8 +1,7 @@
 import { useState } from "react";
 import Button from "../components/Button";
-import { userLogin } from "../services/authSlice";
+import { userLogin } from "../store/authSlice";
 import { useDispatch } from "react-redux";
-import Toast from "../components/Toast";
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -16,7 +15,6 @@ function SignIn() {
 
   return (
     <section className="mx-auto mt-12 w-[300px] bg-white p-8">
-      <Toast />
       <i className="fa fa-user-circle block text-center"></i>
       <h1 className="my-5 text-center text-2xl font-bold">Sign In</h1>
       <form onSubmit={handleSubmit}>

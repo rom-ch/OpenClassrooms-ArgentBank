@@ -17,6 +17,20 @@ export default {
         accentGreen: "#00bc77",
         lightGray: "#cccccc",
       },
+      keyframes: {
+        toastInRight: {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+        toastInLeft: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+      },
+      animation: {
+        toastInRight: "toastInRight 0.5s",
+        toastInLeft: "toastInLeft 0.5s",
+      },
     },
   },
   plugins: [],
