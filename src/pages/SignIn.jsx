@@ -1,22 +1,36 @@
 import { useState } from "react";
-import Button from "../components/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { userLogin } from "../store/authSlice";
-import { useDispatch } from "react-redux";
+import Button from "../components/Button";
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
+  const [stayLoggedIn, setStayLoggedIn] = useState(false);
 
-  function handleSubmit(e) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { loading, error } = useSelector((state) => state.auth);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(userLogin({ email, password }));
-  }
+    await dispatch(userLogin({ email, password, stayLoggedIn }));
+
+    navigate("/user");
+  };
 
   return (
     <section className="mx-auto mt-12 w-[300px] bg-white p-8">
       <i className="fa fa-user-circle block text-center"></i>
       <h1 className="my-5 text-center text-2xl font-bold">Sign In</h1>
+      {error && (
+        <div className="mb-4 rounded-sm bg-red-200 py-2 text-center text-sm font-semibold text-red-800">
+          Incorrect email or password.
+        </div>
+      )}
+
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="font-bold" htmlFor="username">
@@ -47,12 +61,21 @@ function SignIn() {
           />
         </div>
         <div className="mb-4">
-          <input type="checkbox" id="remember-me" />
+          <input
+            onChange={() => setStayLoggedIn(!stayLoggedIn)}
+            checked={stayLoggedIn}
+            name="stayLoggedIn"
+            type="checkbox"
+            id="remember-me"
+          />
           <label className="ml-1" htmlFor="remember-me">
             Remember me
           </label>
         </div>
-        <Button type="large">Sign In</Button>
+
+        <Button disabled={loading} type="large">
+          {loading ? "Loading..." : "Sign In"}
+        </Button>
       </form>
     </section>
   );

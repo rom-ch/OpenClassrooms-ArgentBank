@@ -3,7 +3,7 @@ import AppLayout from "./layout/AppLayout";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import User from "./pages/User";
-// import { action as signInAction } from "./features/user/SignInForm";
+import PrivateRoute from "./components/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/user",
-        element: <User />,
+        element: <PrivateRoute Component={User} />,
       },
     ],
   },

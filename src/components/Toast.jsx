@@ -52,9 +52,7 @@ function Toast({ position = "top-right", deleteInterval }) {
             <div className="mr-4 text-3xl">{generateIcon(toast.type)}</div>
             <div>
               <p className="mb-1.5 text-base font-bold">{toast.title}</p>
-              <p className="overflow-hidden text-ellipsis whitespace-nowrap">
-                {toast.message}
-              </p>
+              <p className="overflow-hidden text-ellipsis">{toast.message}</p>
             </div>
           </div>
         );
