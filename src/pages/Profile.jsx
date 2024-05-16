@@ -1,9 +1,8 @@
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { userProfile } from "../store/userSlice";
 import Account from "../features/Transaction/Account";
 import Button from "../components/Button";
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { userProfile } from "../store/userSlice";
 import UpdateUserForm from "../components/UpdateUserForm";
 
 const accounts = [

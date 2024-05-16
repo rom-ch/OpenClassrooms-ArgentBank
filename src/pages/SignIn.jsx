@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { userLogin } from "../store/authSlice";
@@ -12,20 +12,22 @@ function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, error } = useSelector((state) => state.auth);
+  const { status } = useSelector((state) => state.auth);
 
-  const handleSubmit = async (e) => {
+  useEffect(() => {
+    if (status === "success") navigate("/profile");
+  }, [status, navigate]);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    await dispatch(userLogin({ email, password, stayLoggedIn }));
-
-    navigate("/user");
+    dispatch(userLogin({ email, password, stayLoggedIn }));
   };
 
   return (
     <section className="mx-auto mt-12 w-[300px] bg-white p-8">
       <i className="fa fa-user-circle block text-center"></i>
       <h1 className="my-5 text-center text-2xl font-bold">Sign In</h1>
-      {error && (
+      {status === "error" && (
         <div className="mb-4 rounded-sm bg-red-200 py-2 text-center text-sm font-semibold text-red-800">
           Incorrect email or password.
         </div>
@@ -38,7 +40,7 @@ function SignIn() {
           </label>
           <input
             className="w-full rounded-sm border border-black p-[5px] text-xl leading-5"
-            type="text"
+            type="email"
             id="username"
             name="email"
             value={email}
@@ -73,8 +75,8 @@ function SignIn() {
           </label>
         </div>
 
-        <Button disabled={loading} type="large">
-          {loading ? "Loading..." : "Sign In"}
+        <Button disabled={status === "loading"} type="large">
+          {status === "loading" ? "Loading..." : "Sign In"}
         </Button>
       </form>
     </section>

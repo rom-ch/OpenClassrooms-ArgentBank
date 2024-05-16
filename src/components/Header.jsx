@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import argentBankLogo from "../assets/argentBankLogo.png";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteToken } from "../store/authSlice";
+import { signOut } from "../store/authSlice";
 import { emptyStorages } from "../utils/helpers";
 
 function Header() {
@@ -12,7 +12,7 @@ function Header() {
 
   function handleSignOut() {
     emptyStorages();
-    dispatch(deleteToken());
+    dispatch(signOut());
   }
 
   return (
@@ -22,7 +22,7 @@ function Header() {
         <h1 className="sr-only">Argent Bank</h1>
       </Link>
 
-      {location.pathname === "/user" ? (
+      {location.pathname === "/profile" ? (
         <div>
           <Link to="#" className="mr-3 font-bold tracking-wide hover:underline">
             <i className="fa fa-user-circle mr-1"></i>
@@ -40,11 +40,11 @@ function Header() {
       ) : (
         <div>
           <Link
-            to={token ? "/user" : "sign-in"}
+            to={token ? "/profile" : "/login"}
             className="mr-2 font-bold tracking-wide hover:underline"
           >
             <i className="fa fa-user-circle mr-1"></i>
-            Sign In
+            {token ? firstName : "Sign in"}
           </Link>
         </div>
       )}

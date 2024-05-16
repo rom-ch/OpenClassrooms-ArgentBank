@@ -2,13 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { login } from "../services/authenticationApi";
 
 const initialState = {
-  token:
-    JSON.parse(localStorage.getItem("user")) ||
-    JSON.parse(sessionStorage.getItem("user")) ||
-    null,
-  loading: false,
-  error: "",
-  message: "",
+  token: null,
+  status: null,
 };
 
 export const userLogin = createAsyncThunk("auth/login", login);
@@ -17,26 +12,29 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    deleteToken(state) {
+    setToken(state, action) {
+      state.token = action.payload;
+      state.status = "success";
+    },
+    signOut(state) {
       state.token = null;
+      state.status = null;
     },
   },
   extraReducers: (builder) =>
     builder
       .addCase(userLogin.pending, (state) => {
-        state.loading = true;
+        state.status = "loading";
       })
       .addCase(userLogin.fulfilled, (state, action) => {
-        state.loading = false;
-        state.error = "";
+        state.status = "success";
         state.token = action.payload.body.token;
-        state.message = action.payload.message;
       })
-      .addCase(userLogin.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
+      .addCase(userLogin.rejected, (state) => {
+        state.status = "error";
+        // state.error = action.error.message;
       }),
 });
 
-export const {deleteToken} = authSlice.actions;
+export const { setToken, signOut } = authSlice.actions;
 export default authSlice.reducer;

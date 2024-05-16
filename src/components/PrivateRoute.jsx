@@ -1,12 +1,18 @@
 import { Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
-// import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setToken } from "../store/authSlice";
 
 function PrivateRoute({ Component }) {
-  const token = useSelector((state) => state.auth.token);
+  const dispatch = useDispatch();
 
-  return token ? <Component /> : <Navigate to="/sign-in" />;
+  const isAuthenticated =
+    JSON.parse(localStorage.getItem("user")) ||
+    JSON.parse(sessionStorage.getItem("user"));
+
+  if (isAuthenticated) dispatch(setToken(isAuthenticated));
+
+  return isAuthenticated ? <Component /> : <Navigate to="/login" />;
 }
 
 PrivateRoute.propTypes = {

@@ -24,7 +24,6 @@ function UpdateUserForm({ handleCloseUpdateForm }) {
       setError(true);
       return;
     }
-
     dispatch(updateUserProfile({ token, updatedInfos }));
     handleCloseUpdateForm();
   }
