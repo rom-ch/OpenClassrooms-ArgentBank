@@ -13,10 +13,10 @@ export async function login(userCredentials) {
     const data = await res.json();
 
     if (userCredentials.stayLoggedIn) {
-      localStorage.setItem("user", JSON.stringify(data.body.token));
+      localStorage.setItem("token", JSON.stringify(data.body.token));
     }
 
-    sessionStorage.setItem("user", JSON.stringify(data.body.token));
+    sessionStorage.setItem("token", JSON.stringify(data.body.token));
 
     return data;
   } catch (err) {

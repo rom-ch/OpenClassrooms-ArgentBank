@@ -7,8 +7,8 @@ function PrivateRoute({ Component }) {
   const dispatch = useDispatch();
 
   const isAuthenticated =
-    JSON.parse(localStorage.getItem("user")) ||
-    JSON.parse(sessionStorage.getItem("user"));
+    JSON.parse(localStorage.getItem("token")) ||
+    JSON.parse(sessionStorage.getItem("token"));
 
   if (isAuthenticated) dispatch(setToken(isAuthenticated));
 

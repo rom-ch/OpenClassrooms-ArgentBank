@@ -5,9 +5,7 @@ const initialState = {
   firstName: null,
   lastName: null,
   email: null,
-  loading: false,
-  message: "",
-  error: "",
+  status: null,
 };
 
 export const userProfile = createAsyncThunk("user/profile", fetchUserProfile);
@@ -23,34 +21,32 @@ const userSlice = createSlice({
   extraReducers: (builder) =>
     builder
       .addCase(userProfile.pending, (state) => {
-        state.loading = true;
+        state.status = "loading";
       })
       .addCase(userProfile.fulfilled, (state, action) => {
-        state.loading = false;
+        state.status = "success";
         state.firstName = action.payload.body.firstName;
         state.lastName = action.payload.body.lastName;
         state.email = action.payload.body.email;
         state.message = action.payload.message;
       })
       .addCase(userProfile.rejected, (state, action) => {
-        state.loading = false;
+        state.status = "error";
         state.error = action.error.message;
       })
       .addCase(updateUserProfile.pending, (state) => {
-        state.loading = true;
+        state.status = "loading";
       })
       .addCase(updateUserProfile.fulfilled, (state, action) => {
-        state.loading = false;
+        state.status = "success";
         state.firstName = action.payload.body.firstName;
         state.lastName = action.payload.body.lastName;
         state.message = action.payload.message;
       })
-      .addCase(updateUserProfile.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
+      .addCase(updateUserProfile.rejected, (state) => {
+        state.status = "error";
+        // state.error = action.error.message;
       }),
 });
-
-// export const {} = userSlice.actions;
 
 export default userSlice.reducer;
